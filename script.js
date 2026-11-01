@@ -3,9 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const startLink = document.querySelector(".start-button");
   const surpriseContent = document.getElementById("surpriseContent");
   const musicButton = document.getElementById("musicButton");
-  const songPlayer = document.getElementById("songPlayer");
-  const songPlayerFrame = document.getElementById("songPlayerFrame");
-  const closeSongPlayer = document.getElementById("closeSongPlayer");
+  const musicButtonLabel = document.getElementById("musicButtonLabel");
   const memoryProgress = document.getElementById("memoryProgress");
   const memoryProgressBar = document.getElementById("memoryProgressBar");
   const starGamePrompt = document.getElementById("starGamePrompt");
@@ -164,17 +162,99 @@ document.addEventListener("DOMContentLoaded", () => {
   let confettiPieces = [];
   let fireworkParticles = [];
   let animationFrame = 0;
+  let audioContext = null;
+  let musicMasterGain = null;
+  let musicTimer = 0;
+  let musicStep = 0;
+  let isMusicPlaying = false;
+  const musicVoices = new Set();
+  const musicBars = [
+    { chord: [48, 52, 55, 59], melody: [72, 76, 79, 76] },
+    { chord: [45, 48, 52, 55], melody: [74, 76, 79, 76] },
+    { chord: [41, 45, 48, 52], melody: [72, 76, 81, 79] },
+    { chord: [43, 47, 50, 53], melody: [74, 71, 74, 79] }
+  ];
 
-  musicButton.addEventListener("click", () => {
-    songPlayer.hidden = false;
-    musicButton.setAttribute("aria-expanded", "true");
-    if (!songPlayerFrame.src) songPlayerFrame.src = songPlayerFrame.dataset.src;
-  });
-  closeSongPlayer.addEventListener("click", () => {
-    songPlayer.hidden = true;
-    musicButton.setAttribute("aria-expanded", "false");
-    songPlayerFrame.src = "";
-    musicButton.focus();
+  function playMusicNote(midiNote, startTime, duration, volume, waveform) {
+    const oscillator = audioContext.createOscillator();
+    const envelope = audioContext.createGain();
+    oscillator.type = waveform;
+    oscillator.frequency.value = 440 * (2 ** ((midiNote - 69) / 12));
+    envelope.gain.setValueAtTime(0.0001, startTime);
+    envelope.gain.exponentialRampToValueAtTime(volume, startTime + 0.045);
+    envelope.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+    oscillator.connect(envelope);
+    envelope.connect(musicMasterGain);
+    oscillator.onended = () => {
+      oscillator.disconnect();
+      envelope.disconnect();
+      musicVoices.delete(oscillator);
+    };
+    musicVoices.add(oscillator);
+    oscillator.start(startTime);
+    oscillator.stop(startTime + duration + 0.03);
+  }
+
+  function playMusicStep() {
+    const bar = musicBars[Math.floor(musicStep / 4) % musicBars.length];
+    const noteIndex = musicStep % 4;
+    const startTime = audioContext.currentTime + 0.04;
+    if (noteIndex === 0) {
+      bar.chord.forEach((note) => playMusicNote(note, startTime, 2.45, 0.012, "sine"));
+    }
+    playMusicNote(bar.melody[noteIndex], startTime, 0.58, 0.055, "triangle");
+    musicStep = (musicStep + 1) % (musicBars.length * 4);
+  }
+
+  function stopBackgroundMusic() {
+    window.clearInterval(musicTimer);
+    musicTimer = 0;
+    isMusicPlaying = false;
+    musicVoices.forEach((voice) => voice.stop());
+    musicVoices.clear();
+    if (musicMasterGain && audioContext) {
+      musicMasterGain.gain.setValueAtTime(0, audioContext.currentTime);
+    }
+    musicButton.setAttribute("aria-pressed", "false");
+    musicButton.setAttribute("aria-label", "Play the romantic background music");
+    musicButtonLabel.textContent = "Tap to make it more special";
+  }
+
+  musicButton.addEventListener("click", async () => {
+    if (isMusicPlaying) {
+      stopBackgroundMusic();
+      return;
+    }
+
+    const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextConstructor) {
+      musicButtonLabel.textContent = "Music isn't supported here";
+      musicButton.setAttribute("aria-label", "Background music is not supported in this browser");
+      return;
+    }
+
+    try {
+      if (!audioContext) {
+        audioContext = new AudioContextConstructor();
+        musicMasterGain = audioContext.createGain();
+        musicMasterGain.gain.value = 0.14;
+        musicMasterGain.connect(audioContext.destination);
+      }
+      await audioContext.resume();
+      if (audioContext.state !== "running") throw new Error("Audio playback could not start.");
+      isMusicPlaying = true;
+      musicButton.setAttribute("aria-pressed", "true");
+      musicButton.setAttribute("aria-label", "Pause the romantic background music");
+      musicButtonLabel.textContent = "Pause our song";
+      musicStep = 0;
+      playMusicStep();
+      musicTimer = window.setInterval(playMusicStep, 620);
+    } catch (error) {
+      console.error("Unable to start the birthday background music.", error);
+      stopBackgroundMusic();
+      musicButtonLabel.textContent = "Music couldn't play";
+      musicButton.setAttribute("aria-label", "Background music could not be played");
+    }
   });
 
   // The intro acts as the cover; the main surprise is revealed only after the start button.
