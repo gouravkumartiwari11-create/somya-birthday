@@ -2,6 +2,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   const startLink = document.querySelector(".start-button");
   const surpriseContent = document.getElementById("surpriseContent");
+  const musicButton = document.getElementById("musicButton");
+  const songPlayer = document.getElementById("songPlayer");
+  const songPlayerFrame = document.getElementById("songPlayerFrame");
+  const closeSongPlayer = document.getElementById("closeSongPlayer");
   const memoryProgress = document.getElementById("memoryProgress");
   const memoryProgressBar = document.getElementById("memoryProgressBar");
   const starGamePrompt = document.getElementById("starGamePrompt");
@@ -161,13 +165,25 @@ document.addEventListener("DOMContentLoaded", () => {
   let fireworkParticles = [];
   let animationFrame = 0;
 
+  musicButton.addEventListener("click", () => {
+    songPlayer.hidden = false;
+    musicButton.setAttribute("aria-expanded", "true");
+    if (!songPlayerFrame.src) songPlayerFrame.src = songPlayerFrame.dataset.src;
+  });
+  closeSongPlayer.addEventListener("click", () => {
+    songPlayer.hidden = true;
+    musicButton.setAttribute("aria-expanded", "false");
+    songPlayerFrame.src = "";
+    musicButton.focus();
+  });
+
   // The intro acts as the cover; the main surprise is revealed only after the start button.
   startLink.addEventListener("click", (event) => {
     event.preventDefault();
     document.body.classList.add("started");
     surpriseContent.setAttribute("aria-hidden", "false");
     setupScrollReveals();
-    document.getElementById("memories").scrollIntoView({ behavior: "smooth" });
+    document.getElementById("cake").scrollIntoView({ behavior: "smooth" });
   });
   surpriseContent.setAttribute("aria-hidden", "true");
 

@@ -27,16 +27,32 @@
       <a href="#journey">Our journey</a>
       <a href="#finale">The finale</a>
     </nav>
-    <a
+    <button
       id="musicButton"
       class="music-button"
-      href="https://open.spotify.com/search/Enna%20Sona"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Find Enna Sona on Spotify">
+      type="button"
+      aria-label="Play Enna Sona in the page"
+      aria-expanded="false"
+      aria-controls="songPlayer">
       <span class="music-icon" aria-hidden="true">♫</span>
-      <span>Find our song</span>
-    </a>
+      <span>Tap to make it more special</span>
+    </button>
+    <div id="songPlayer" class="song-player" hidden>
+      <div class="song-player-heading">
+        <p>Our song <span aria-hidden="true">♡</span></p>
+        <button id="closeSongPlayer" class="song-player-close" type="button" aria-label="Close song player">×</button>
+      </div>
+      <iframe
+        id="songPlayerFrame"
+        title="Play Enna Sona in the birthday page"
+        data-src="https://open.spotify.com/embed/track/1hA697u7e1jX2XM8sWA6Uy?utm_source=generator"
+        width="100%"
+        height="152"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      <p class="song-player-note">Play it right here—no app switch needed. ✨</p>
+    </div>
   </header>
 
   <main>
@@ -48,8 +64,8 @@
         <h1>Happy Birthday<br><span>Somya Mishra</span> <span class="title-heart" aria-hidden="true">♥</span></h1>
         <p class="queen-title">Mrs. Tiwari Bahu <span aria-hidden="true">♛</span></p>
         <p class="welcome-note">You make every ordinary day feel a little more magical.</p>
-        <a class="primary-button start-button" href="#memories">
-          <span>Play the star photo game</span><span class="button-arrow" aria-hidden="true">→</span>
+        <a class="primary-button start-button" href="#cake">
+          <span>Start your surprise</span><span class="button-arrow" aria-hidden="true">→</span>
         </a>
         <p class="scroll-hint"><span class="scroll-dot"></span> A little scroll, a lot of love</p>
       </div>
