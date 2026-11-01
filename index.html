@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1b1027">
+  <meta name="description" content="A little birthday universe made with love for Somya Mishra.">
+  <title>Happy Birthday, Somya ❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="ambient-glow" aria-hidden="true"></div>
+  <div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
+  <canvas id="celebrationCanvas" class="celebration-canvas" aria-hidden="true"></canvas>
+  <div id="heartRain" class="heart-rain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#welcome" aria-label="Back to the beginning">S <span>♡</span></a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="#cake">Celebrate</a>
+      <a href="#reasons">50 reasons</a>
+      <a href="#memories">Memories</a>
+      <a href="#journey">Our journey</a>
+      <a href="#finale">The finale</a>
+    </nav>
+    <a
+      id="musicButton"
+      class="music-button"
+      href="https://open.spotify.com/search/Enna%20Sona"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Find Enna Sona on Spotify">
+      <span class="music-icon" aria-hidden="true">♫</span>
+      <span>Find our song</span>
+    </a>
+  </header>
+
+  <main>
+    <section id="welcome" class="welcome-section section-shell">
+      <div class="welcome-stars" aria-hidden="true"></div>
+      <div class="welcome-content">
+        <p class="eyebrow"><span class="eyebrow-line"></span> A little universe, made just for you <span class="eyebrow-line"></span></p>
+        <p class="welcome-pretitle">Today, the stars are celebrating...</p>
+        <h1>Happy Birthday<br><span>Somya Mishra</span> <span class="title-heart" aria-hidden="true">♥</span></h1>
+        <p class="queen-title">Mrs. Tiwari Bahu <span aria-hidden="true">♛</span></p>
+        <p class="welcome-note">You make every ordinary day feel a little more magical.</p>
+        <a class="primary-button start-button" href="#memories">
+          <span>Play the star photo game</span><span class="button-arrow" aria-hidden="true">→</span>
+        </a>
+        <p class="scroll-hint"><span class="scroll-dot"></span> A little scroll, a lot of love</p>
+      </div>
+      <div class="floating-heart heart-one" aria-hidden="true">♥</div>
+      <div class="floating-heart heart-two" aria-hidden="true">♡</div>
+      <div class="floating-heart heart-three" aria-hidden="true">♥</div>
+      <div class="welcome-orbit orbit-one" aria-hidden="true"></div>
+      <div class="welcome-orbit orbit-two" aria-hidden="true"></div>
+    </section>
+
+    <div id="surpriseContent" class="surprise-content">
+      <section id="cake" class="content-section cake-section section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">Make a birthday wish</p>
+          <h2>A cake, a wish, <em>and you</em></h2>
+          <p>Close your eyes, make your sweetest wish, and blow out the candles.</p>
+        </div>
+        <div class="cake-scene">
+          <div class="cake-sparkle sparkle-a" aria-hidden="true">✦</div>
+          <div class="cake-sparkle sparkle-b" aria-hidden="true">✧</div>
+          <div class="candles" aria-label="Three glowing birthday candles">
+            <div class="candle"><span class="flame"></span><span class="candle-wick"></span></div>
+            <div class="candle candle-center"><span class="flame"></span><span class="candle-wick"></span></div>
+            <div class="candle"><span class="flame"></span><span class="candle-wick"></span></div>
+          </div>
+          <div class="cake-top"><span class="icing-drip"></span></div>
+          <div class="cake-layer cake-layer-top"><span class="cake-decoration">✦</span><span class="cake-decoration">♡</span><span class="cake-decoration">✦</span></div>
+          <div class="cake-layer cake-layer-bottom"></div>
+          <div class="cake-plate"></div>
+        </div>
+        <p id="candleMessage" class="candle-message" aria-live="polite">One big wish coming up... ✨</p>
+        <button id="blowCandlesButton" class="primary-button" type="button">
+          <span>Blow out the candles</span><span aria-hidden="true"> ✨</span>
+        </button>
+      </section>
+
+      <section id="cards" class="content-section cards-section section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">Little notes, lots of love</p>
+          <h2>Open when you <em>need a smile</em></h2>
+          <p>Tap an envelope to open your birthday note.</p>
+        </div>
+        <div class="envelope-grid">
+          <button class="envelope-card" type="button" aria-expanded="false">
+            <span class="envelope-art" aria-hidden="true"><span class="envelope-paper">For my<br>favorite person</span><span class="envelope-flap"></span><span class="envelope-heart">♥</span></span>
+            <span class="envelope-caption">A note for you</span>
+            <span class="envelope-message">You are my favorite hello, my safest place, and the best part of every day. ❤️</span>
+          </button>
+          <button class="envelope-card" type="button" aria-expanded="false">
+            <span class="envelope-art envelope-art-blush" aria-hidden="true"><span class="envelope-paper">A tiny<br>reminder</span><span class="envelope-flap"></span><span class="envelope-heart">♥</span></span>
+            <span class="envelope-caption">Open for a hug</span>
+            <span class="envelope-message">In case you forget today: you are wonderful, deeply loved, and absolutely one of a kind. 🫶</span>
+          </button>
+          <button class="envelope-card" type="button" aria-expanded="false">
+            <span class="envelope-art envelope-art-gold" aria-hidden="true"><span class="envelope-paper">Just<br>because</span><span class="envelope-flap"></span><span class="envelope-heart">♥</span></span>
+            <span class="envelope-caption">One more little note</span>
+            <span class="envelope-message">My wish for you is a year full of belly laughs, beautiful surprises, and all the happiness you deserve. ✨</span>
+          </button>
+        </div>
+      </section>
+
+      <section id="reasons" class="content-section reasons-section section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">A list that could go on forever</p>
+          <h2>50 reasons <em>I love you</em></h2>
+          <p>Here are fifty little reasons—one for every time you make my heart smile.</p>
+        </div>
+        <div class="reason-card">
+          <span id="reasonNumber" class="reason-number">01 <span>/ 50</span></span>
+          <span class="reason-heart" aria-hidden="true">♡</span>
+          <p id="reasonText" class="reason-text" aria-live="polite"></p>
+          <div class="reason-controls">
+            <button id="previousReason" class="round-button" type="button" aria-label="Previous reason">←</button>
+            <div id="reasonDots" class="reason-dots" aria-label="Reason progress"></div>
+            <button id="nextReason" class="round-button" type="button" aria-label="Next reason">→</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="journey" class="content-section journey-section section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">Every chapter, my favorite</p>
+          <h2>Our <em>Journey</em></h2>
+          <p>And the sweetest part? We get to keep writing it together.</p>
+        </div>
+        <div class="timeline">
+          <article class="timeline-card">
+            <span class="timeline-marker">01</span>
+            <p class="timeline-label">The beginning</p>
+            <h3>Our first hello</h3>
+            <p>Somehow, one little moment became the start of my favorite story.</p>
+          </article>
+          <article class="timeline-card">
+            <span class="timeline-marker">02</span>
+            <p class="timeline-label">The little things</p>
+            <h3>Our favorite memories</h3>
+            <p>Every laugh, every conversation, every ordinary moment made special by you.</p>
+          </article>
+          <article class="timeline-card">
+            <span class="timeline-marker">03</span>
+            <p class="timeline-label">Right here, right now</p>
+            <h3>Another year of you</h3>
+            <p>Today we celebrate the wonderful person you are—and all the joy still ahead.</p>
+          </article>
+          <article class="timeline-card">
+            <span class="timeline-marker">04</span>
+            <p class="timeline-label">Always</p>
+            <h3>More chapters together</h3>
+            <p>My favorite plans are the ones where I get to keep choosing you.</p>
+          </article>
+        </div>
+        <p class="customize-hint">Make this timeline yours: swap in your own dates and favorite memories in <code>index.html</code>.</p>
+      </section>
+
+      <section id="memories" class="content-section memories-section section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">A little game, a lot of love</p>
+          <h2>Find the lucky <em>star</em></h2>
+          <p>Pick the right star to unlock one surprise memory. All 17 photos are waiting to be found. ✨</p>
+        </div>
+        <div id="starGame" class="star-game-card">
+          <div class="star-game-progress">
+            <span id="memoryProgress">MEMORY 1 OF 17</span>
+            <span>Choose carefully ✨</span>
+          </div>
+          <div class="star-game-track" role="progressbar" aria-label="Memory game progress" aria-valuemin="0" aria-valuemax="17" aria-valuenow="0">
+            <span id="memoryProgressBar"></span>
+          </div>
+          <h3 id="starGamePrompt" class="star-game-prompt">One star is hiding a little surprise...</h3>
+          <p id="starGameMessage" class="star-game-message" aria-live="polite">Tap a star to find out which one. 🌟</p>
+          <div id="starChoices" class="star-choices" aria-label="Choose a star"></div>
+          <div id="memorySlideshow" class="memory-slideshow" hidden>
+            <p id="memorySlideNumber" class="memory-slide-number"></p>
+            <div class="memory-slide-frame">
+              <img id="memorySlideImage" alt="">
+            </div>
+            <p id="memorySlideCaption" class="memory-slide-caption"></p>
+            <button id="nextMemoryButton" class="primary-button" type="button">Find the next star →</button>
+          </div>
+        </div>
+        <p class="customize-hint">Missed a star? No worries—keep trying. Your photos stay a surprise until you find the right one. 💗</p>
+      </section>
+
+      <section class="content-section future-section section-shell">
+        <div class="future-card">
+          <div class="future-orbit" aria-hidden="true">✦</div>
+          <p class="eyebrow">A little note from tomorrow</p>
+          <h2>Message from <em>Future Us</em></h2>
+          <p id="futureMessage" class="future-message" aria-live="polite"></p>
+          <span class="future-signature">With love, always</span>
+        </div>
+      </section>
+
+      <section id="counter" class="content-section counter-section section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">Every second is a little sweeter</p>
+          <h2>Time spent <em>loving you</em></h2>
+          <p>And counting all the moments I feel lucky to have you.</p>
+        </div>
+        <div class="counter-grid" aria-label="Time since our relationship began">
+          <div class="counter-unit"><span id="counterDays">0</span><small>days</small></div>
+          <div class="counter-unit"><span id="counterHours">00</span><small>hours</small></div>
+          <div class="counter-unit"><span id="counterMinutes">00</span><small>minutes</small></div>
+          <div class="counter-unit"><span id="counterSeconds">00</span><small>seconds</small></div>
+        </div>
+        <p class="customize-hint">Counting every moment since 2 August 2024. ❤️</p>
+      </section>
+
+      <section id="roses" class="content-section roses-section section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">Pick a flower, find a feeling</p>
+          <h2>A garden of <em>little love notes</em></h2>
+          <p>Tap any rose to see what it has to say.</p>
+        </div>
+        <div id="roseGarden" class="rose-garden"></div>
+        <p id="roseMessage" class="rose-message" aria-live="polite">A rose for every reason you make life brighter. 🌹</p>
+      </section>
+
+      <section id="dateIdea" class="content-section date-idea-section section-shell">
+        <div class="date-idea-card">
+          <span class="date-idea-sparkle" aria-hidden="true">✧</span>
+          <p class="eyebrow">One more little adventure</p>
+          <h2>Our next <em>date idea</em></h2>
+          <p id="dateIdeaMessage" class="date-idea-message" aria-live="polite">Shall we let the birthday stars choose?</p>
+          <button id="dateIdeaButton" class="secondary-button" type="button">Pick our next date ✨</button>
+        </div>
+      </section>
+
+      <section id="game" class="content-section love-game-section section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">A tiny game, a whole lot of love</p>
+          <h2>Pick a heart, <em>win a love note</em></h2>
+          <p>Five little stages, three hearts each. Win or lose, every round has a note from Gourav.</p>
+        </div>
+        <div class="love-game-card">
+          <div class="game-topline">
+            <span id="gameStageLabel" class="game-stage-label">STAGE 1 OF 5</span>
+            <span id="gameRoundLabel" class="game-round-label">ROUND 1</span>
+          </div>
+          <div class="game-progress" role="progressbar" aria-label="Game stage progress" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1">
+            <span id="gameProgressBar"></span>
+          </div>
+          <h3 id="gamePrompt" class="game-prompt">Which heart is keeping a secret?</h3>
+          <p class="game-instructions">Choose just one. Your love note is waiting either way. 💌</p>
+          <div id="gameHearts" class="game-hearts" aria-label="Choose a heart"></div>
+          <div id="gameResult" class="game-result" aria-live="polite">
+            <p id="gameResultTitle" class="game-result-title"></p>
+            <p id="gameLoveNote" class="game-love-note"></p>
+            <button id="nextGameStage" class="primary-button game-next-button" type="button" hidden>Next stage →</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="wishbook" class="content-section wishbook-section section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">A little space for your wishes</p>
+          <h2>Your birthday <em>wish book</em></h2>
+          <p>Write a wish for the year ahead. Save it here, then download your wishes to keep them.</p>
+        </div>
+        <div class="wishbook-card">
+          <form id="wishForm" class="wish-form">
+            <label for="wishInput" class="wish-label">Somya, what are you wishing for?</label>
+            <textarea id="wishInput" name="wish" rows="3" maxlength="240" placeholder="A trip, a dream, a little everyday joy..." required></textarea>
+            <div class="wish-form-footer">
+              <span id="wishCharacterCount" class="wish-character-count">0 / 240</span>
+              <button class="primary-button" type="submit">Save this wish ♡</button>
+            </div>
+            <p id="wishStatus" class="wish-status" aria-live="polite">Your wishes are saved only in this browser on this device.</p>
+          </form>
+          <div class="wish-list-heading">
+            <h3>Your little wishes</h3>
+            <button id="downloadWishes" class="text-button wish-download-button" type="button" disabled>Download wishes ↓</button>
+          </div>
+          <ul id="wishList" class="wish-list" aria-live="polite"></ul>
+          <p id="emptyWishBook" class="empty-wishbook">Your wish book is waiting for its first little dream. ✨</p>
+        </div>
+      </section>
+
+      <section id="stars" class="content-section stars-section section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">The whole sky is wishing for you</p>
+          <h2>Make a wish <em>on a star</em></h2>
+          <p>Tap a star and let a little birthday magic find you.</p>
+        </div>
+        <div class="star-sky">
+          <button class="wish-star star-position-one" type="button" aria-label="Reveal a birthday wish">✦</button>
+          <button class="wish-star star-position-two" type="button" aria-label="Reveal a birthday wish">✧</button>
+          <button class="wish-star star-position-three" type="button" aria-label="Reveal a birthday wish">✦</button>
+          <button class="wish-star star-position-four" type="button" aria-label="Reveal a birthday wish">✧</button>
+          <button class="wish-star star-position-five" type="button" aria-label="Reveal a birthday wish">✦</button>
+          <button class="wish-star star-position-six" type="button" aria-label="Reveal a birthday wish">✧</button>
+          <button class="wish-star star-position-seven" type="button" aria-label="Reveal a birthday wish">✦</button>
+          <span class="sky-moon" aria-hidden="true">☾</span>
+        </div>
+        <p id="wishMessage" class="wish-message" aria-live="polite">Your wish is waiting among the stars. ✨</p>
+      </section>
+
+      <section id="gift" class="content-section gift-section section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">A little something, wrapped with love</p>
+          <h2>Your birthday <em>surprise</em></h2>
+          <p>Go on, darling. It has your name on it.</p>
+        </div>
+        <button id="giftBox" class="gift-box" type="button" aria-expanded="false" aria-label="Open your birthday gift">
+          <span class="gift-lid"></span><span class="gift-bow" aria-hidden="true">✧</span><span class="gift-body"></span>
+          <span class="gift-sparkle gift-sparkle-one" aria-hidden="true">✦</span><span class="gift-sparkle gift-sparkle-two" aria-hidden="true">✧</span>
+        </button>
+        <p id="giftMessage" class="gift-message" aria-live="polite">Your surprise is one click away. 🎁</p>
+      </section>
+
+      <section id="letter" class="content-section letter-section section-shell">
+        <div class="letter-card">
+          <p class="eyebrow">Just for you, from my heart</p>
+          <h2>My love <em>letter</em></h2>
+          <div class="letter-rule" aria-hidden="true"><span>♥</span></div>
+          <p class="letter-greeting">My dearest Somya,</p>
+          <p class="letter-copy">Happy birthday to the person who makes my world softer, brighter, and so much more beautiful. I hope this new year brings you the same warmth and happiness you give to everyone around you. Thank you for being exactly who you are—my favorite person, my biggest smile, and a part of every dream I look forward to. Today is all about celebrating you, and I hope you feel just how loved you are.</p>
+          <p class="letter-closing">All my love, today and always,</p>
+          <p class="letter-signature">Gourav <span>♡</span></p>
+        </div>
+      </section>
+
+      <section id="finale" class="finale-section section-shell">
+        <div class="finale-stars" aria-hidden="true"></div>
+        <div class="finale-content">
+          <p class="eyebrow">The best part of every day</p>
+          <span class="finale-heart" aria-hidden="true">♥</span>
+          <h2>I Love You <span>❤️</span></h2>
+          <p class="finale-birthday">Happy Birthday<br>Somya Mishra ❤️</p>
+          <p class="finale-signoff">Forever Yours, Gourav <span>❤️</span></p>
+          <button id="shareButton" class="secondary-button share-button" type="button">Share this little surprise ↗</button>
+          <p id="shareMessage" class="share-message" aria-live="polite">Once published, share your birthday link with her.</p>
+          <button id="againButton" class="text-button" type="button">One more time, from the top ↑</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Made with all my love, just for you <span>♥</span></p>
+  </footer>
+</body>
+</html>
