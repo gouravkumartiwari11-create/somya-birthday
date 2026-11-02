@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261101-4">
-  <script src="script.js?v=20261101-4" defer></script>
+  <link rel="stylesheet" href="style.css?v=20261102-1">
+  <script src="script.js?v=20261102-1" defer></script>
 </head>
 <body>
   <div class="ambient-glow" aria-hidden="true"></div>
@@ -190,10 +190,14 @@
             <button id="nextMemoryButton" class="primary-button" type="button">Find the next star →</button>
           </div>
         </div>
+        <div id="memoryFinishMessage" class="memory-finish-message" role="status" aria-live="polite" hidden>
+          <p class="eyebrow">Bas aaj ke liye itni si yaadein 💖</p>
+          <p>Betu ji, memories toh bahut hain mere paas… utni saari daalunga toh aap bhi bore ho jaogi! 😄 Isliye aaj ka din, jo sirf aapka hai, boring nahi banaunga. Aaj ke liye bas itni hi dekh lijiye—ye sab meri favourites hain, isliye inhe dala hai. Aur kharab-kharab pics nahi daali hain, hehe! 🙈 Aap sundar hi ho yaar, samjho na… aapko lagta hai woh sab kharab hain, par mere liye toh woh bhi bahut sundar hain. 🥰 Cutieeeee pieeeee bbyyyyy! 💖😘✨</p>
+        </div>
         <p class="customize-hint">Missed a star? No worries—keep trying. Your photos stay a surprise until you find the right one. 💗</p>
       </section>
 
-      <section class="content-section future-section section-shell">
+      <section id="futureSection" class="content-section future-section section-shell" hidden>
         <div class="future-card">
           <div class="future-orbit" aria-hidden="true">✦</div>
           <p class="eyebrow">A little note from tomorrow</p>

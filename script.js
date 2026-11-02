@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const starGamePrompt = document.getElementById("starGamePrompt");
   const starGameMessage = document.getElementById("starGameMessage");
   const starChoices = document.getElementById("starChoices");
+  const memoryFinishMessage = document.getElementById("memoryFinishMessage");
   const memorySlideshow = document.getElementById("memorySlideshow");
   const memorySlideNumber = document.getElementById("memorySlideNumber");
   const memorySlideImage = document.getElementById("memorySlideImage");
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const reasonNumber = document.getElementById("reasonNumber");
   const reasonDots = document.getElementById("reasonDots");
   const futureMessage = document.getElementById("futureMessage");
+  const futureSection = document.getElementById("futureSection");
   const roseGarden = document.getElementById("roseGarden");
   const roseMessage = document.getElementById("roseMessage");
   const wishMessage = document.getElementById("wishMessage");
@@ -160,6 +162,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let confettiPieces = [];
   let fireworkParticles = [];
   let animationFrame = 0;
+  let revealFutureOnScroll = false;
+  let memoryCompletionScrollY = 0;
   // The intro acts as the cover; the main surprise is revealed only after the start button.
   startLink.addEventListener("click", (event) => {
     event.preventDefault();
@@ -174,6 +178,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
     const progress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
     document.getElementById("scrollProgress").style.transform = `scaleX(${Math.min(1, Math.max(0, progress))})`;
+    if (revealFutureOnScroll && window.scrollY > memoryCompletionScrollY) {
+      futureSection.hidden = false;
+      revealFutureOnScroll = false;
+    }
   }
   window.addEventListener("scroll", updateScrollProgress, { passive: true });
   window.addEventListener("resize", updateScrollProgress);
@@ -450,6 +458,9 @@ document.addEventListener("DOMContentLoaded", () => {
       starGamePrompt.hidden = false;
       starChoices.hidden = true;
       starGameMessage.textContent = "17 stars, 17 memories, and one very loved girl. Happy birthday, Somya! ❤️";
+      memoryFinishMessage.hidden = false;
+      memoryCompletionScrollY = window.scrollY;
+      revealFutureOnScroll = true;
       nextMemoryButton.textContent = "All memories found 💗";
       nextMemoryButton.disabled = true;
       return;
