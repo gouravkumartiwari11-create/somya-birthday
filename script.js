@@ -449,13 +449,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const reasonLabel = document.createElement("label");
       reasonLabel.className = "complaint-reason-label";
       reasonLabel.htmlFor = `complaintReason${index}`;
-      reasonLabel.textContent = "What did I do that made you gussa?";
+      reasonLabel.textContent = "Betu ji, aap mujhse kin baaton par gussa hoti ho?";
 
       const reasonInput = document.createElement("textarea");
       reasonInput.id = `complaintReason${index}`;
       reasonInput.rows = 2;
       reasonInput.maxLength = 300;
-      reasonInput.placeholder = "Tell me honestly… I promise I’ll listen 💗";
+      reasonInput.placeholder = "Yahan apni reason likho… 💌";
       reasonInput.value = complaint.text;
       reasonInput.addEventListener("input", () => {
         complaintDrafts[index].text = reasonInput.value;
