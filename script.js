@@ -37,9 +37,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const wishList = document.getElementById("wishList");
   const wishStatus = document.getElementById("wishStatus");
   const downloadWishes = document.getElementById("downloadWishes");
+  const complaintForm = document.getElementById("complaintForm");
+  const complaintList = document.getElementById("complaintList");
+  const complaintEditor = document.getElementById("complaintEditor");
+  const complaintStatus = document.getElementById("complaintStatus");
+  const complaintConfirm = document.getElementById("complaintConfirm");
+  const complaintConfirmPrompt = document.getElementById("complaintConfirmPrompt");
+  const complaintConfirmStatus = document.getElementById("complaintConfirmStatus");
+  const complaintSaved = document.getElementById("complaintSaved");
+  const complaintSavedList = document.getElementById("complaintSavedList");
+  const complaintSavedMessage = document.getElementById("complaintSavedMessage");
   const canvas = document.getElementById("celebrationCanvas");
   const context = canvas.getContext("2d");
   const WISH_STORAGE_KEY = "somya-birthday-wishes";
+  const COMPLAINT_STORAGE_KEY = "somya-birthday-complaints";
+  const complaintLevels = [
+    { label: "Kam gussa", emoji: "🙂" },
+    { label: "Halka gussa", emoji: "😕" },
+    { label: "Kaafi gussa", emoji: "😠" },
+    { label: "Bahut zyada gussa", emoji: "😡" }
+  ];
 
   // Local time keeps the counter aligned with your anniversary date.
   const RELATIONSHIP_START_DATE = new Date(2024, 7, 2, 0, 0, 0);
@@ -164,6 +181,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let animationFrame = 0;
   let revealFutureOnScroll = false;
   let memoryCompletionScrollY = 0;
+  let complaintDrafts = [{ text: "", level: 1 }];
+  let savedComplaints = [];
+  let complaintConfirmStep = 0;
   // The intro acts as the cover; the main surprise is revealed only after the start button.
   startLink.addEventListener("click", (event) => {
     event.preventDefault();
@@ -191,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function setupScrollReveals() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const revealItems = document.querySelectorAll(
-      ".surprise-content .section-heading, .reason-card, .future-card, .counter-unit, .rose-button, .star-game-card, .date-idea-card, .love-game-card, .wishbook-card, .star-sky, .gift-box, .letter-card"
+      ".surprise-content .section-heading, .reason-card, .future-card, .counter-unit, .rose-button, .star-game-card, .date-idea-card, .complaint-game-card, .love-game-card, .wishbook-card, .star-sky, .gift-box, .letter-card"
     );
     const revealObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
@@ -388,6 +408,225 @@ document.addEventListener("DOMContentLoaded", () => {
     wishStatus.textContent = "Your wish book has been downloaded. Keep it somewhere safe. 💌";
   });
   renderWishes();
+
+  function loadSavedComplaints() {
+    try {
+      const saved = JSON.parse(window.localStorage.getItem(COMPLAINT_STORAGE_KEY) || "[]");
+      if (!Array.isArray(saved)) throw new TypeError("Saved complaints should be a list.");
+      return saved.filter((complaint) =>
+        complaint &&
+        typeof complaint.text === "string" &&
+        Number.isInteger(complaint.level) &&
+        complaint.level >= 1 &&
+        complaint.level <= complaintLevels.length &&
+        typeof complaint.createdAt === "string"
+      );
+    } catch (error) {
+      complaintStatus.textContent = "I couldn’t load saved reasons in this browser. You can still write them for this visit.";
+      return [];
+    }
+  }
+
+  function saveComplaintReasons(reasonsToSave) {
+    try {
+      window.localStorage.setItem(COMPLAINT_STORAGE_KEY, JSON.stringify(reasonsToSave));
+      return true;
+    } catch (error) {
+      complaintStatus.textContent = "This browser couldn’t save your reasons. They’re still here for this visit—please try again.";
+      return false;
+    }
+  }
+
+  function renderComplaintDrafts(focusIndex = -1) {
+    complaintList.replaceChildren();
+    complaintDrafts.forEach((complaint, index) => {
+      const item = document.createElement("fieldset");
+      item.className = "complaint-item";
+
+      const legend = document.createElement("legend");
+      legend.textContent = `Reason ${index + 1}`;
+
+      const reasonLabel = document.createElement("label");
+      reasonLabel.className = "complaint-reason-label";
+      reasonLabel.htmlFor = `complaintReason${index}`;
+      reasonLabel.textContent = "What did I do that made you gussa?";
+
+      const reasonInput = document.createElement("textarea");
+      reasonInput.id = `complaintReason${index}`;
+      reasonInput.rows = 2;
+      reasonInput.maxLength = 300;
+      reasonInput.placeholder = "Tell me honestly… I promise I’ll listen 💗";
+      reasonInput.value = complaint.text;
+      reasonInput.addEventListener("input", () => {
+        complaintDrafts[index].text = reasonInput.value;
+      });
+
+      const levelRow = document.createElement("div");
+      levelRow.className = "complaint-level-row";
+      const levelLabel = document.createElement("label");
+      levelLabel.htmlFor = `complaintLevel${index}`;
+      levelLabel.textContent = "Kitna gussa?";
+
+      const levelControl = document.createElement("div");
+      levelControl.className = "complaint-level-control";
+      const levelInput = document.createElement("input");
+      levelInput.id = `complaintLevel${index}`;
+      levelInput.type = "range";
+      levelInput.min = "1";
+      levelInput.max = String(complaintLevels.length);
+      levelInput.step = "1";
+      levelInput.value = String(complaint.level);
+      const levelOutput = document.createElement("output");
+      levelOutput.className = "complaint-level-output";
+
+      const updateLevel = () => {
+        const level = Number(levelInput.value);
+        const mood = complaintLevels[level - 1];
+        complaintDrafts[index].level = level;
+        levelInput.setAttribute("aria-valuetext", `${mood.label} ${mood.emoji}`);
+        levelOutput.textContent = `${mood.emoji} ${mood.label}`;
+      };
+      levelInput.addEventListener("input", updateLevel);
+      updateLevel();
+      levelControl.append(levelInput, levelOutput);
+      levelRow.append(levelLabel, levelControl);
+
+      const itemActions = document.createElement("div");
+      itemActions.className = "complaint-item-actions";
+      const removeButton = document.createElement("button");
+      removeButton.className = "text-button complaint-remove-button";
+      removeButton.type = "button";
+      removeButton.textContent = "Remove this reason";
+      removeButton.setAttribute("aria-label", `Remove reason ${index + 1}`);
+      removeButton.hidden = complaintDrafts.length === 1;
+      removeButton.addEventListener("click", () => {
+        complaintDrafts.splice(index, 1);
+        if (complaintDrafts.length === 0) complaintDrafts.push({ text: "", level: 1 });
+        renderComplaintDrafts();
+      });
+      itemActions.append(removeButton);
+
+      item.append(legend, reasonLabel, reasonInput, levelRow, itemActions);
+      complaintList.append(item);
+      if (index === focusIndex) reasonInput.focus();
+    });
+  }
+
+  function renderSavedComplaints() {
+    complaintSavedList.replaceChildren();
+    savedComplaints.forEach((complaint, index) => {
+      const item = document.createElement("li");
+      item.className = "complaint-saved-item";
+      const text = document.createElement("p");
+      text.className = "complaint-saved-text";
+      text.textContent = complaint.text;
+      const mood = complaintLevels[complaint.level - 1];
+      const intensity = document.createElement("span");
+      intensity.className = "complaint-saved-intensity";
+      intensity.textContent = `${mood.emoji} ${mood.label}`;
+      item.setAttribute("aria-label", `Reason ${index + 1}: ${complaint.text}, ${mood.label}`);
+      item.append(text, intensity);
+      complaintSavedList.append(item);
+    });
+    complaintSavedMessage.textContent = `Saved ${savedComplaints.length} ${savedComplaints.length === 1 ? "reason" : "reasons"} only in this browser on this device. Thank you for telling me, cutie. ❤️`;
+  }
+
+  function openComplaintEditor(addAnother = false) {
+    if (savedComplaints.length && complaintDrafts.length === 1 && complaintDrafts[0].text === "") {
+      complaintDrafts = savedComplaints.map(({ text, level }) => ({ text, level }));
+    }
+    if (addAnother) complaintDrafts.push({ text: "", level: 1 });
+    complaintSaved.hidden = true;
+    complaintConfirm.hidden = true;
+    complaintEditor.hidden = false;
+    complaintStatus.textContent = "Your reasons are saved only in this browser on this device. 💗";
+    renderComplaintDrafts(addAnother ? complaintDrafts.length - 1 : -1);
+  }
+
+  savedComplaints = loadSavedComplaints();
+  if (savedComplaints.length) {
+    complaintEditor.hidden = true;
+    complaintSaved.hidden = false;
+    renderSavedComplaints();
+  } else {
+    renderComplaintDrafts();
+  }
+
+  document.getElementById("addComplaintButton").addEventListener("click", () => {
+    complaintDrafts.push({ text: "", level: 1 });
+    renderComplaintDrafts(complaintDrafts.length - 1);
+  });
+
+  complaintForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const emptyReasonIndex = complaintDrafts.findIndex((complaint) => complaint.text.trim().length < 3);
+    if (emptyReasonIndex !== -1) {
+      complaintStatus.textContent = `Add a little more to reason ${emptyReasonIndex + 1} before we finish. 💌`;
+      document.getElementById(`complaintReason${emptyReasonIndex}`).focus();
+      return;
+    }
+
+    complaintConfirmStep = 1;
+    complaintConfirmPrompt.textContent = "Pakka sure ho na, bas itna hi hai? 🥺";
+    complaintConfirmStatus.textContent = "";
+    complaintEditor.hidden = true;
+    complaintConfirm.hidden = false;
+  });
+
+  document.getElementById("complaintYesButton").addEventListener("click", () => {
+    if (complaintConfirmStep === 1) {
+      complaintConfirmStep = 2;
+      complaintConfirmPrompt.textContent = "Ek baar aur soch lo, cutie… pakka sure na? 💖";
+      complaintConfirmStatus.textContent = "";
+      return;
+    }
+    if (complaintConfirmStep !== 2) return;
+
+    const reasonsToSave = complaintDrafts.map((complaint) => ({
+      text: complaint.text.trim(),
+      level: complaint.level,
+      createdAt: new Date().toISOString()
+    }));
+    if (!saveComplaintReasons(reasonsToSave)) {
+      complaintConfirmStatus.textContent = complaintStatus.textContent;
+      return;
+    }
+
+    savedComplaints = reasonsToSave;
+    complaintConfirm.hidden = true;
+    complaintSaved.hidden = false;
+    renderSavedComplaints();
+  });
+
+  document.getElementById("complaintNoButton").addEventListener("click", () => {
+    complaintConfirmStep = 0;
+    complaintDrafts.push({ text: "", level: 1 });
+    complaintStatus.textContent = "Hehe, add anything else you remember—I’m listening. 🥺";
+    complaintConfirm.hidden = true;
+    complaintEditor.hidden = false;
+    renderComplaintDrafts(complaintDrafts.length - 1);
+  });
+
+  document.getElementById("addMoreComplaintsButton").addEventListener("click", () => {
+    complaintDrafts = savedComplaints.map(({ text, level }) => ({ text, level }));
+    openComplaintEditor(true);
+  });
+
+  document.getElementById("downloadComplaintsButton").addEventListener("click", () => {
+    if (!savedComplaints.length) return;
+    const complaintText = savedComplaints.map((complaint, index) => {
+      const mood = complaintLevels[complaint.level - 1];
+      return `${index + 1}. ${complaint.text}\n   Gussa level: ${mood.label} ${mood.emoji}`;
+    }).join("\n\n");
+    const file = new Blob([`Somya's reasons for being gussa\n\n${complaintText}\n`], { type: "text/plain;charset=utf-8" });
+    const downloadUrl = URL.createObjectURL(file);
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = "somya-complaint-reasons.txt";
+    link.click();
+    URL.revokeObjectURL(downloadUrl);
+    complaintSavedMessage.textContent = "Your reasons are saved on this device—and downloaded as a note you can share with Gourav. 💌";
+  });
 
   // Each card is a real button, so the envelope interaction works with keyboard and touch.
   document.querySelectorAll(".envelope-card").forEach((card) => {

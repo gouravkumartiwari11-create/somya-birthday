@@ -601,6 +601,63 @@ code { color: var(--rose-light); font-family: Consolas, monospace; }
 .game-next-button { min-height: 42px; padding: 9px 18px; font-size: .77rem; }
 
 .wishbook-card { width: min(100%, 790px); }
+.complaint-section { background: radial-gradient(ellipse at 50% 45%, rgba(255,120,155,.075), transparent 55%); }
+.complaint-game-card {
+  width: min(100%, 790px);
+  margin: 0 auto;
+  padding: clamp(24px, 5vw, 46px);
+  border: 1px solid rgba(255,193,207,.2);
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.025));
+  box-shadow: 0 25px 70px rgba(0,0,0,.17);
+}
+.complaint-item {
+  min-width: 0;
+  margin: 0 0 16px;
+  padding: clamp(17px, 3vw, 25px);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px;
+  background: rgba(16,10,26,.28);
+}
+.complaint-item legend { padding: 0 9px; color: var(--gold); font-family: var(--serif); font-size: 1.15rem; }
+.complaint-reason-label, .complaint-level-row > label { display: block; margin-bottom: 8px; color: var(--rose-light); font-size: .79rem; font-weight: 600; }
+.complaint-item textarea {
+  display: block;
+  width: 100%;
+  min-height: 82px;
+  resize: vertical;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: rgba(16,10,26,.42);
+  color: var(--ink);
+  font: inherit;
+  font-size: .88rem;
+  line-height: 1.6;
+}
+.complaint-item textarea::placeholder { color: #97869a; }
+.complaint-item textarea:focus-visible, .complaint-level-control input:focus-visible { border-color: var(--rose); outline: 2px solid rgba(255,120,155,.22); outline-offset: 2px; }
+.complaint-level-row { margin-top: 17px; }
+.complaint-level-control { display: grid; grid-template-columns: minmax(0, 1fr) minmax(120px, 175px); align-items: center; gap: 18px; }
+.complaint-level-control input { width: 100%; accent-color: var(--rose); cursor: pointer; }
+.complaint-level-output { color: var(--gold); font-family: var(--serif); font-size: .95rem; text-align: right; }
+.complaint-item-actions { display: flex; justify-content: flex-end; min-height: 27px; margin-top: 6px; }
+.complaint-remove-button { color: #d6a4b8; font-size: .7rem; }
+.complaint-remove-button[hidden] { display: none; }
+.complaint-actions, .complaint-confirm-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 21px; }
+.complaint-actions .primary-button, .complaint-confirm-actions .primary-button { min-height: 44px; padding: 10px 19px; font-size: .78rem; }
+.complaint-actions .secondary-button, .complaint-confirm-actions .secondary-button { min-height: 44px; }
+.complaint-status { min-height: 24px; margin: 14px 0 0; color: var(--muted); font-size: .72rem; text-align: center; }
+.complaint-confirm, .complaint-saved { padding: clamp(20px, 4vw, 32px); text-align: center; }
+.complaint-confirm[hidden], .complaint-saved[hidden], #complaintEditor[hidden] { display: none; }
+.complaint-confirm h3, .complaint-saved h3 { margin: 0 auto 10px; font-family: var(--serif); font-size: clamp(1.45rem, 3.8vw, 2rem); font-weight: 500; }
+.complaint-confirm-actions { margin-top: 24px; }
+.complaint-saved-message { color: var(--muted); font-size: .8rem; }
+.complaint-saved-list { display: grid; gap: 10px; max-width: 570px; margin: 22px auto; padding: 0; list-style: none; text-align: left; }
+.complaint-saved-item { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; padding: 13px 15px; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; background: rgba(255,255,255,.035); }
+.complaint-saved-text { margin: 0; color: #f0e2ed; font-family: var(--serif); overflow-wrap: anywhere; }
+.complaint-saved-intensity { flex: 0 0 auto; color: var(--gold); font-size: .73rem; }
+.complaint-download-button { margin-right: 10px; }
 .wish-form { padding-bottom: 27px; border-bottom: 1px solid var(--line); }
 .wish-label { display: block; margin-bottom: 9px; color: var(--rose-light); font-family: var(--serif); font-size: 1.2rem; }
 .wish-form textarea { display: block; width: 100%; min-height: 116px; resize: vertical; border: 1px solid rgba(255,255,255,.15); border-radius: 13px; padding: 14px 16px; background: rgba(16,10,26,.42); color: var(--ink); font: inherit; font-size: .9rem; line-height: 1.65; }
@@ -624,10 +681,13 @@ code { color: var(--rose-light); font-family: Consolas, monospace; }
 .empty-wishbook[hidden] { display: none; }
 
 @media (max-width: 500px) {
-  .love-game-card, .wishbook-card { padding: 23px 17px; border-radius: 18px; }
+  .love-game-card, .wishbook-card, .complaint-game-card { padding: 23px 17px; border-radius: 18px; }
   .game-hearts { gap: 11px; }
   .game-heart { border-radius: 21px; }
   .wish-form-footer { align-items: flex-end; }
+  .complaint-level-control { grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+  .complaint-level-output { font-size: .8rem; }
+  .complaint-saved-item { flex-direction: column; gap: 5px; }
   .wish-list-heading { align-items: flex-start; }
   .wish-download-button { font-size: .7rem; }
 }

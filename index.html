@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261102-1">
-  <script src="script.js?v=20261102-1" defer></script>
+  <link rel="stylesheet" href="style.css?v=20261102-2">
+  <script src="script.js?v=20261102-2" defer></script>
 </head>
 <body>
   <div class="ambient-glow" aria-hidden="true"></div>
@@ -24,6 +24,7 @@
       <a href="#cake">Celebrate</a>
       <a href="#reasons">50 reasons</a>
       <a href="#memories">Memories</a>
+      <a href="#complaints">Complaints</a>
       <a href="#journey">Our journey</a>
       <a href="#finale">The finale</a>
     </nav>
@@ -239,6 +240,45 @@
           <h2>Our next <em>date idea</em></h2>
           <p id="dateIdeaMessage" class="date-idea-message" aria-live="polite">Shall we let the birthday stars choose?</p>
           <button id="dateIdeaButton" class="secondary-button" type="button">Pick our next date ✨</button>
+        </div>
+      </section>
+
+      <section id="complaints" class="content-section complaint-section section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">A tiny complaint box, just for us</p>
+          <h2>Betu ji, <em>mujhse kyun gussa ho?</em></h2>
+          <p>Tell me what I did, one reason at a time. You can add as many as you like—and tell me just how gussa you are. 🥺</p>
+        </div>
+        <div class="complaint-game-card">
+          <div id="complaintEditor">
+            <form id="complaintForm" novalidate>
+              <div id="complaintList" class="complaint-list"></div>
+              <div class="complaint-actions">
+                <button id="addComplaintButton" class="secondary-button" type="button">+ Add another reason</button>
+                <button class="primary-button complaint-finish-button" type="submit">Bas itna hi 💌</button>
+              </div>
+              <p id="complaintStatus" class="complaint-status" role="status" aria-live="polite">Your reasons are saved only in this browser on this device. 💗</p>
+            </form>
+          </div>
+
+          <div id="complaintConfirm" class="complaint-confirm" hidden>
+            <p class="eyebrow">One last check...</p>
+            <h3 id="complaintConfirmPrompt">Pakka sure ho na, bas itna hi hai? 🥺</h3>
+            <div class="complaint-confirm-actions">
+              <button id="complaintYesButton" class="primary-button" type="button">Haan, bas itna hi 💖</button>
+              <button id="complaintNoButton" class="secondary-button" type="button">Nahi, aur yaad aaya 😅</button>
+            </div>
+            <p id="complaintConfirmStatus" class="complaint-status" role="status" aria-live="polite"></p>
+          </div>
+
+          <div id="complaintSaved" class="complaint-saved" hidden>
+            <p class="eyebrow">I promise I’ll listen 💌</p>
+            <h3>Your reasons are safe with me 💗</h3>
+            <p id="complaintSavedMessage" class="complaint-saved-message" role="status" aria-live="polite"></p>
+            <ul id="complaintSavedList" class="complaint-saved-list"></ul>
+            <button id="downloadComplaintsButton" class="secondary-button complaint-download-button" type="button">Download my reasons ↓</button>
+            <button id="addMoreComplaintsButton" class="secondary-button" type="button">Actually, add one more ✍️</button>
+          </div>
         </div>
       </section>
 
