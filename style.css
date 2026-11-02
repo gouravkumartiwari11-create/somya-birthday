@@ -679,15 +679,77 @@ code { color: var(--rose-light); font-family: Consolas, monospace; }
 .wish-remove-button:hover { color: var(--rose-light); text-decoration: underline; }
 .empty-wishbook { margin: 18px 0 0; color: var(--muted); font-family: var(--serif); font-size: .96rem; font-style: italic; text-align: center; }
 .empty-wishbook[hidden] { display: none; }
+.feedback-section { background: radial-gradient(ellipse at 50% 45%, rgba(255,120,155,.085), transparent 55%); }
+.feedback-card {
+  width: min(100%, 850px);
+  margin: 0 auto;
+  padding: clamp(24px, 5vw, 46px);
+  border: 1px solid rgba(255,193,207,.2);
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.025));
+  box-shadow: 0 25px 70px rgba(0,0,0,.17);
+}
+.feedback-form[hidden], .feedback-saved[hidden] { display: none; }
+.feedback-label { display: block; margin-bottom: 10px; color: var(--rose-light); font-family: var(--serif); font-size: 1.2rem; }
+.feedback-form textarea {
+  display: block;
+  width: 100%;
+  min-height: 150px;
+  resize: vertical;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 13px;
+  padding: 14px 16px;
+  background: rgba(16,10,26,.42);
+  color: var(--ink);
+  font: inherit;
+  font-size: .9rem;
+  line-height: 1.65;
+}
+.feedback-form textarea::placeholder { color: #97869a; }
+.feedback-form textarea:focus-visible { border-color: var(--rose); outline: 2px solid rgba(255,120,155,.22); outline-offset: 2px; }
+.feedback-rating { min-width: 0; margin: 27px 0 24px; padding: 0; border: 0; }
+.feedback-rating legend { margin-bottom: 15px; color: var(--rose-light); font-family: var(--serif); font-size: 1.12rem; }
+.feedback-rating-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.feedback-rating-option { position: relative; cursor: pointer; }
+.feedback-rating-option input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.feedback-rating-option span {
+  display: grid;
+  min-width: 48px;
+  min-height: 43px;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 12px;
+  padding: 6px 9px;
+  background: rgba(255,255,255,.035);
+  color: var(--muted);
+  font-size: .77rem;
+  transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
+}
+.feedback-rating-option:hover span, .feedback-rating-option input:checked + span { transform: translateY(-2px); border-color: rgba(247,217,157,.65); background: rgba(247,217,157,.13); color: var(--gold); }
+.feedback-rating-option input:focus-visible + span { outline: 2px solid var(--rose-light); outline-offset: 3px; }
+.feedback-rating-preview { min-height: 25px; margin: 14px 0 0; color: var(--gold); font-family: var(--serif); font-style: italic; text-align: center; }
+.feedback-save-button { display: block; min-height: 45px; margin: 0 auto; padding: 10px 20px; font-size: .8rem; }
+.feedback-status { min-height: 23px; margin: 13px 0 0; color: var(--muted); font-size: .72rem; text-align: center; }
+.feedback-saved { padding: clamp(10px, 3vw, 24px); text-align: center; }
+.feedback-saved h3 { margin: 0 0 10px; font-family: var(--serif); font-size: clamp(1.7rem, 4vw, 2.3rem); font-weight: 500; }
+.feedback-saved-rating { color: var(--gold); font-family: var(--serif); font-size: 1.15rem; }
+.feedback-saved-comment { max-width: 620px; margin: 17px auto 24px; color: #f0e2ed; font-family: var(--serif); font-size: 1.05rem; line-height: 1.75; overflow-wrap: anywhere; }
+.feedback-saved-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.feedback-whatsapp-link { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; padding: 10px 19px; background: #167c57; color: white; font-size: .78rem; text-decoration: none; }
+.feedback-whatsapp-link:hover, .feedback-whatsapp-link:focus-visible { background: #1b9569; }
+.feedback-whatsapp-note { margin: 13px 0 0; color: var(--muted); font-size: .7rem; }
 
 @media (max-width: 500px) {
   .love-game-card, .wishbook-card, .complaint-game-card { padding: 23px 17px; border-radius: 18px; }
+  .feedback-card { padding: 23px 17px; border-radius: 18px; }
   .game-hearts { gap: 11px; }
   .game-heart { border-radius: 21px; }
   .wish-form-footer { align-items: flex-end; }
   .complaint-level-control { grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
   .complaint-level-output { font-size: .8rem; }
   .complaint-saved-item { flex-direction: column; gap: 5px; }
+  .feedback-rating-options { gap: 6px; }
+  .feedback-rating-option span { min-width: 43px; padding: 5px 7px; }
   .wish-list-heading { align-items: flex-start; }
   .wish-download-button { font-size: .7rem; }
 }

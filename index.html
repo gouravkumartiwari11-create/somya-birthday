@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261102-3">
-  <script src="script.js?v=20261102-3" defer></script>
+  <link rel="stylesheet" href="style.css?v=20261102-4">
+  <script src="script.js?v=20261102-4" defer></script>
 </head>
 <body>
   <div class="ambient-glow" aria-hidden="true"></div>
@@ -387,6 +387,41 @@
           <button id="shareButton" class="secondary-button share-button" type="button">Share this little surprise ↗</button>
           <p id="shareMessage" class="share-message" aria-live="polite">Once published, share your birthday link with her.</p>
           <button id="againButton" class="text-button" type="button">One more time, from the top ↑</button>
+        </div>
+      </section>
+
+      <section id="feedback" class="content-section feedback-section section-shell">
+        <div class="section-heading">
+          <p class="eyebrow">One last little thing, from my heart</p>
+          <h2>Bby, maine bahut mehnat se banaya… <em>kaisa laga?</em></h2>
+          <p>Sachchi-sachchi batana na 💗 Aur kuch add kar sakta hoon? Taaki agli baar kuch banaun toh mujhe yaad rahe. ✨</p>
+        </div>
+        <div class="feedback-card">
+          <form id="feedbackForm" class="feedback-form" novalidate>
+            <label class="feedback-label" for="feedbackComment">Write anything you’d like me to know 💌</label>
+            <textarea id="feedbackComment" name="comment" rows="5" maxlength="2000" placeholder="Yahan apna feedback likho… 💗"></textarea>
+
+            <fieldset class="feedback-rating">
+              <legend>Rate this gift (0–10 stars—or go beyond infinity!)</legend>
+              <div id="feedbackRatingOptions" class="feedback-rating-options"></div>
+              <p id="feedbackRatingPreview" class="feedback-rating-preview" aria-live="polite">Choose a rating that feels right ✨</p>
+            </fieldset>
+
+            <button class="primary-button feedback-save-button" type="submit">Save my feedback 💌</button>
+            <p id="feedbackStatus" class="feedback-status" role="status" aria-live="polite">Your feedback is saved only in this browser on this device.</p>
+          </form>
+
+          <div id="feedbackSaved" class="feedback-saved" hidden>
+            <p class="eyebrow">Thank you for telling me 💗</p>
+            <h3>Your feedback is saved!</h3>
+            <p id="feedbackSavedRating" class="feedback-saved-rating"></p>
+            <p id="feedbackSavedComment" class="feedback-saved-comment"></p>
+            <div class="feedback-saved-actions">
+              <a id="feedbackWhatsAppLink" class="primary-button feedback-whatsapp-link" href="https://wa.me/916203069954" target="_blank" rel="noopener noreferrer">Send it to Gourav on WhatsApp ↗</a>
+              <button id="editFeedbackButton" class="secondary-button" type="button">Edit my feedback</button>
+            </div>
+            <p class="feedback-whatsapp-note">WhatsApp will open with your message ready. Tap Send there to share it with Gourav. 💚</p>
+          </div>
         </div>
       </section>
     </div>

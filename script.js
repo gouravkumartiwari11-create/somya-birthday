@@ -47,15 +47,35 @@ document.addEventListener("DOMContentLoaded", () => {
   const complaintSaved = document.getElementById("complaintSaved");
   const complaintSavedList = document.getElementById("complaintSavedList");
   const complaintSavedMessage = document.getElementById("complaintSavedMessage");
+  const feedbackForm = document.getElementById("feedbackForm");
+  const feedbackComment = document.getElementById("feedbackComment");
+  const feedbackRatingOptions = document.getElementById("feedbackRatingOptions");
+  const feedbackRatingPreview = document.getElementById("feedbackRatingPreview");
+  const feedbackStatus = document.getElementById("feedbackStatus");
+  const feedbackSaved = document.getElementById("feedbackSaved");
+  const feedbackSavedRating = document.getElementById("feedbackSavedRating");
+  const feedbackSavedComment = document.getElementById("feedbackSavedComment");
+  const feedbackWhatsAppLink = document.getElementById("feedbackWhatsAppLink");
   const canvas = document.getElementById("celebrationCanvas");
   const context = canvas.getContext("2d");
   const WISH_STORAGE_KEY = "somya-birthday-wishes";
   const COMPLAINT_STORAGE_KEY = "somya-birthday-complaints";
+  const FEEDBACK_STORAGE_KEY = "somya-birthday-feedback";
+  const WHATSAPP_NUMBER = "916203069954";
   const complaintLevels = [
     { label: "Kam gussa", emoji: "🙂" },
     { label: "Halka gussa", emoji: "😕" },
     { label: "Kaafi gussa", emoji: "😠" },
     { label: "Bahut zyada gussa", emoji: "😡" }
+  ];
+  const feedbackRatings = [
+    { value: "negative-infinity", label: "−∞", spoken: "Negative infinity" },
+    ...Array.from({ length: 11 }, (_, score) => ({
+      value: String(score),
+      label: score === 0 ? "0" : `${score} ★`,
+      spoken: `${score} ${score === 1 ? "star" : "stars"}`
+    })),
+    { value: "positive-infinity", label: "+∞", spoken: "Positive infinity" }
   ];
 
   // Local time keeps the counter aligned with your anniversary date.
@@ -181,6 +201,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let animationFrame = 0;
   let revealFutureOnScroll = false;
   let memoryCompletionScrollY = 0;
+  let savedFeedback = null;
+  let selectedFeedbackRating = "";
   let complaintDrafts = [{ text: "", level: 1 }];
   let savedComplaints = [];
   let complaintConfirmStep = 0;
@@ -626,6 +648,107 @@ document.addEventListener("DOMContentLoaded", () => {
     link.click();
     URL.revokeObjectURL(downloadUrl);
     complaintSavedMessage.textContent = "Your reasons are saved on this device—and downloaded as a note you can share with Gourav. 💌";
+  });
+
+  function getFeedbackRatingLabel(ratingValue) {
+    return feedbackRatings.find((rating) => rating.value === ratingValue)?.spoken || "";
+  }
+
+  function renderFeedbackRating() {
+    feedbackRatingOptions.replaceChildren();
+    feedbackRatings.forEach((rating) => {
+      const label = document.createElement("label");
+      label.className = "feedback-rating-option";
+      label.title = rating.spoken;
+
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = "feedbackRating";
+      input.value = rating.value;
+      input.checked = selectedFeedbackRating === rating.value;
+      input.setAttribute("aria-label", rating.spoken);
+      input.addEventListener("change", () => {
+        selectedFeedbackRating = rating.value;
+        feedbackRatingPreview.textContent = `Your rating: ${rating.spoken} 💖`;
+      });
+
+      const text = document.createElement("span");
+      text.textContent = rating.label;
+      label.append(input, text);
+      feedbackRatingOptions.append(label);
+    });
+    feedbackRatingPreview.textContent = selectedFeedbackRating
+      ? `Your rating: ${getFeedbackRatingLabel(selectedFeedbackRating)} 💖`
+      : "Choose a rating that feels right ✨";
+  }
+
+  function renderSavedFeedback(feedback) {
+    const ratingLabel = getFeedbackRatingLabel(feedback.rating);
+    feedbackSavedRating.textContent = `Your rating: ${ratingLabel} 💖`;
+    feedbackSavedComment.textContent = feedback.comment || "You kept your written feedback just between us. 💌";
+    const message = [
+      "Hi Gourav! Here’s my honest feedback on your birthday surprise 💗",
+      `My rating: ${ratingLabel}`,
+      `What I thought: ${feedback.comment || "(I chose not to write a comment.)"}`,
+      "One thing you could add next time: "
+    ].join("\n\n");
+    feedbackWhatsAppLink.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    feedbackForm.hidden = true;
+    feedbackSaved.hidden = false;
+  }
+
+  function loadSavedFeedback() {
+    try {
+      const saved = JSON.parse(window.localStorage.getItem(FEEDBACK_STORAGE_KEY) || "null");
+      if (!saved) return null;
+      const validRating = feedbackRatings.some((rating) => rating.value === saved.rating);
+      if (!validRating || typeof saved.comment !== "string" || typeof saved.createdAt !== "string") {
+        throw new TypeError("Saved feedback has an invalid shape.");
+      }
+      return saved;
+    } catch (error) {
+      feedbackStatus.textContent = "I couldn’t load saved feedback in this browser. You can still write it again.";
+      return null;
+    }
+  }
+
+  renderFeedbackRating();
+  savedFeedback = loadSavedFeedback();
+  if (savedFeedback) renderSavedFeedback(savedFeedback);
+
+  feedbackForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!selectedFeedbackRating) {
+      feedbackStatus.textContent = "Choose a star rating before saving your feedback. ⭐";
+      feedbackRatingOptions.querySelector("input")?.focus();
+      return;
+    }
+
+    const feedback = {
+      rating: selectedFeedbackRating,
+      comment: feedbackComment.value.trim(),
+      createdAt: new Date().toISOString()
+    };
+    try {
+      window.localStorage.setItem(FEEDBACK_STORAGE_KEY, JSON.stringify(feedback));
+    } catch (error) {
+      feedbackStatus.textContent = "This browser couldn’t save your feedback. Please try again or send it on WhatsApp.";
+      return;
+    }
+
+    savedFeedback = feedback;
+    feedbackStatus.textContent = "Your feedback is saved only in this browser on this device.";
+    renderSavedFeedback(savedFeedback);
+  });
+
+  document.getElementById("editFeedbackButton").addEventListener("click", () => {
+    if (savedFeedback) {
+      selectedFeedbackRating = savedFeedback.rating;
+      feedbackComment.value = savedFeedback.comment;
+      renderFeedbackRating();
+    }
+    feedbackSaved.hidden = true;
+    feedbackForm.hidden = false;
   });
 
   // Each card is a real button, so the envelope interaction works with keyboard and touch.
